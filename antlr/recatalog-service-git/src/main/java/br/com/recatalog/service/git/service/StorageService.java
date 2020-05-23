@@ -19,13 +19,41 @@ public class StorageService {
 	
 	private Logger logger = LoggerFactory.getLogger(GitRepoService.class);
 	
-	private final Path rootLocation = Paths.get("upload-dir");
+	private final  Path rootLocation = Paths.get("upload-dir");
 	
 	public void store(MultipartFile file) {
 		try {
+			
 			Files.copy(file.getInputStream(), this.rootLocation.resolve(file.getOriginalFilename()));
 		} catch (Exception e) {
-			logger.error("Error on store MultipartFile");
+			logger.error("Error on store MultipartFile: " + e.getMessage());
+			throw new RuntimeException("FAIL!");
+		}
+	}
+	
+	public void storeFolder(MultipartFile file) {
+		try {
+
+			
+			Path path = Paths.get(file.getOriginalFilename());
+			
+			Path pp = Paths.get(path.subpath(0, path.getNameCount()-1).toString());
+			
+			Path px = rootLocation.resolve(pp);
+			
+//			Path ndir = null;
+			
+			if(!Files.exists(px)) {
+				Files.createDirectories(px);
+			}
+			
+			
+			Path target = px.resolve(path.getFileName().toString());
+			
+			Files.copy(file.getInputStream(), target);
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.error("Error on store MultipartFile: " + e.getMessage());
 			throw new RuntimeException("FAIL!");
 		}
 	}

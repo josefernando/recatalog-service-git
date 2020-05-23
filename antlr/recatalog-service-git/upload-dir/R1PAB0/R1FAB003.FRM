@@ -3,7 +3,7 @@ Object = "{0BA686C6-F7D3-101A-993E-0000C0EF6F5E}#1.0#0"; "threed32.ocx"
 Object = "{5E9E78A0-531B-11CF-91F6-C2863C385E30}#1.0#0"; "MsFlxGrd.ocx"
 Begin VB.Form R1FAB003 
    Appearance      =   0  'Flat
-   Caption         =   "Consulta ï¿½ Apolice - Nï¿½mero da Apï¿½lice"
+   Caption         =   "Consulta à Apolice - Número da Apólice"
    ClientHeight    =   6300
    ClientLeft      =   1065
    ClientTop       =   960
@@ -119,7 +119,7 @@ Begin VB.Form R1FAB003
       _ExtentX        =   14420
       _ExtentY        =   4286
       _StockProps     =   14
-      Caption         =   "Endereï¿½o de Correspondï¿½ncia do Segurado"
+      Caption         =   "Endereço de Correspondência do Segurado"
       ForeColor       =   8388608
       BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
          Name            =   "MS Sans Serif"
@@ -242,7 +242,7 @@ Begin VB.Form R1FAB003
       Begin VB.Label Label9 
          Appearance      =   0  'Flat
          AutoSize        =   -1  'True
-         Caption         =   "Nï¿½mero"
+         Caption         =   "Número"
          ForeColor       =   &H00800000&
          Height          =   195
          Left            =   135
@@ -487,7 +487,7 @@ Begin VB.Form R1FAB003
       Begin VB.Label Label17 
          Appearance      =   0  'Flat
          AutoSize        =   -1  'True
-         Caption         =   "Nï¿½mero"
+         Caption         =   "Número"
          ForeColor       =   &H00800000&
          Height          =   195
          Left            =   105
@@ -646,7 +646,7 @@ Begin VB.Form R1FAB003
       _ExtentX        =   15055
       _ExtentY        =   9155
       _StockProps     =   14
-      Caption         =   "E-Mails da apï¿½lice"
+      Caption         =   "E-Mails da apólice"
       ForeColor       =   8388608
       BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
          Name            =   "MS Sans Serif"
@@ -676,7 +676,7 @@ Begin VB.Form R1FAB003
          SelectionMode   =   1
          AllowUserResizing=   1
          Appearance      =   0
-         FormatString    =   "^E-Mail                                                                        |^Ativo |^Incluï¿½do\Alterado |^Data           "
+         FormatString    =   "^E-Mail                                                                        |^Ativo |^Incluído\Alterado |^Data           "
          BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
             Name            =   "MS Sans Serif"
             Size            =   8.25
@@ -694,14 +694,14 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
-' ***************** Endereï¿½o para Correspondï¿½ncia ********************
+' ***************** Endereço para Correspondência ********************
 
 
 Option Explicit
 
 Dim c_idt_pes_aux As String
 Dim c_idt_pes_pgd As String     'Pagador
-Dim c_idt_pes_ncl As String     'Nï¿½cleo
+Dim c_idt_pes_ncl As String     'Núcleo
 Dim c_idt_pes_cor As String     'Corretor
 Dim c_idt_ptc_pes As String      'Tomador/Garantido
 
@@ -723,7 +723,7 @@ Dim i_psl_pnc_i()
 
 Function FU_SEL_HIS_PTC_PES_S08676() As Integer
 
-    ' seleciona nome do produto da apï¿½lice
+    ' seleciona nome do produto da apólice
 
 Dim ret As Integer
 Dim cod_err As Integer
@@ -737,7 +737,7 @@ Dim cod_err As Integer
         Exit Function
     End If
     
-    ' passa parï¿½metros
+    ' passa parâmetros
     If FU_Parametro(SqlConn, "@c_cia_ita", c_cia_ita, SQLINT2%) = FAIL% Then Exit Function
     If FU_Parametro(SqlConn, "@c_rmo", c_rmo, SQLINT2%) = FAIL% Then Exit Function
     If FU_Parametro(SqlConn, "@u_apo_pnc", u_apo_pnc, SQLINT4%) = FAIL% Then Exit Function
@@ -804,12 +804,12 @@ Dim cod_err As Integer
 
     cod_err = Val(SqlRetData$(SqlConn%, 5))
 
-    'O parï¿½metro OUTPUT da stored procedure indica ocorrï¿½ncia de erro.
+    'O parâmetro OUTPUT da stored procedure indica ocorrência de erro.
     If cod_err = 10 Then
         Exit Function
     ElseIf cod_err <> 0 And cod_err <> 10 Then
-        'Exibiï¿½ï¿½o da mensagem de erro ao usuï¿½rio.
-        MsgBox "Erro na dbnseg..pr_his_ptc_pes_s08676: parï¿½metro @error = " & Trim$(Trim$(SqlRetData$(SqlConn%, 6))) & ".", MB_ICONEXCLAMATION
+        'Exibição da mensagem de erro ao usuário.
+        MsgBox "Erro na dbnseg..pr_his_ptc_pes_s08676: parâmetro @error = " & Trim$(Trim$(SqlRetData$(SqlConn%, 6))) & ".", MB_ICONEXCLAMATION
         Exit Function
     End If
 
@@ -834,13 +834,13 @@ Private Sub bu3d_Cliente_Click()
 
 ' chamada ao projeto Cliente
 
-' executï¿½vel
+' executável
 Dim vl_ArqExec      As String
 
-' ï¿½rea de transferï¿½ncia
+' área de transferência
 Dim vl_TextoClipb   As String
 
-' retorno da funï¿½ï¿½o
+' retorno da função
 Dim iExecOk         As Integer
 
     'vl_ArqExec$ = "pepge001.exe R1" 'v60 Emilio 22/08/2006
@@ -861,14 +861,14 @@ Dim iExecOk         As Integer
     Clipboard.Clear
     Clipboard.SetText vl_TextoClipb$
     
-    ' fecha conexï¿½o para a chamada de outro projeto
+    ' fecha conexão para a chamada de outro projeto
     su_fecha_conexao
     
     Refresh
     'Me.Hide
     
-    'v60 Emilio 22/08/2006 - inï¿½cio
-    'Obs.: Migraï¿½ï¿½o XP para novo catalogador - Funï¿½ï¿½o descontinuada
+    'v60 Emilio 22/08/2006 - início
+    'Obs.: Migração XP para novo catalogador - Função descontinuada
     'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 '    '======================================================================
 '    'LUCIANE - 05/07/1999
@@ -883,19 +883,19 @@ Dim iExecOk         As Integer
     'v60 Emilio 22/08/2006 - fim
     
     If Not iExecOk% Then
-        MsgBox "Nï¿½o foi possï¿½vel executar o projeto" & Chr(13) & vl_ArqExec$ & " - PROJETO DE CLIENTE", 48
+        MsgBox "Não foi possível executar o projeto" & Chr(13) & vl_ArqExec$ & " - PROJETO DE CLIENTE", 48
     End If
 
     ' executa outro projeto
     'iExecOk% = FU_Monitora_Exec(Me, vl_ArqExec$ & " ")
     'If Not iExecOk% Then
-    '    MsgBox "Opï¿½ï¿½o ainda nï¿½o disponï¿½vel ('" & vl_ArqExec$ & "').", MB_ICONEXCLAMATION
+    '    MsgBox "Opção ainda não disponível ('" & vl_ArqExec$ & "').", MB_ICONEXCLAMATION
     'End If
 
     'LUCIANE - 05/07/1999
     '======================================================================
     
-    ' reestabelece conexï¿½o apï¿½s a execuï¿½ï¿½o de outro projeto
+    ' reestabelece conexão após a execução de outro projeto
     SqlConn% = FU_Conecta_Servidor(SERV_MASCORP_ID)
     
     Me.Show
@@ -914,13 +914,13 @@ Private Sub bu3d_Destino_Click()
 
 ' chamada ao projeto Cliente
 
-' executï¿½vel
+' executável
 Dim vl_ArqExec      As String
 
-' ï¿½rea de transferï¿½ncia
+' área de transferência
 Dim vl_TextoClipb   As String
 
-' retorno da funï¿½ï¿½o
+' retorno da função
 Dim iExecOk         As Integer
 
     'vl_ArqExec$ = "pepge001.exe R1" 'v60 Emilio 22/08/2006
@@ -941,14 +941,14 @@ Dim iExecOk         As Integer
     Clipboard.Clear
     Clipboard.SetText vl_TextoClipb$
     
-    ' fecha conexï¿½o para a chamada de outro projeto
+    ' fecha conexão para a chamada de outro projeto
     su_fecha_conexao
     
     Refresh
     'Me.Hide
     
-    'v60 Emilio 22/08/2006 - inï¿½cio
-    'Obs.: Migraï¿½ï¿½o XP para novo catalogador - Funï¿½ï¿½o descontinuada
+    'v60 Emilio 22/08/2006 - início
+    'Obs.: Migração XP para novo catalogador - Função descontinuada
     'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 '    '======================================================================
 '    'LUCIANE - 05/07/1999
@@ -963,19 +963,19 @@ Dim iExecOk         As Integer
     'v60 Emilio 22/08/2006 - fim
     
     If Not iExecOk% Then
-        MsgBox "Nï¿½o foi possï¿½vel executar o projeto" & Chr(13) & vl_ArqExec$ & " - PROJETO DE CLIENTE", 48
+        MsgBox "Não foi possível executar o projeto" & Chr(13) & vl_ArqExec$ & " - PROJETO DE CLIENTE", 48
     End If
 
     ' executa outro projeto
     'iExecOk% = FU_Monitora_Exec(Me, vl_ArqExec$ & " ")
     'If Not iExecOk% Then
-    '    MsgBox "Opï¿½ï¿½o ainda nï¿½o disponï¿½vel ('" & vl_ArqExec$ & "').", MB_ICONEXCLAMATION
+    '    MsgBox "Opção ainda não disponível ('" & vl_ArqExec$ & "').", MB_ICONEXCLAMATION
     'End If
 
     'LUCIANE - 05/07/1999
     '======================================================================
     
-    ' reestabelece conexï¿½o apï¿½s a execuï¿½ï¿½o de outro projeto
+    ' reestabelece conexão após a execução de outro projeto
     SqlConn% = FU_Conecta_Servidor(SERV_MASCORP_ID)
     
     Me.Show
@@ -986,14 +986,14 @@ End Sub
 
 Private Sub bu3d_imp_tla_Click()
 
-    ' impressï¿½o de tela
+    ' impressão de tela
     su_imp_tla
 
 End Sub
 
 Private Sub bu3d_imp_tla_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
     
-    PA3D_Status.Caption = "R1FAB003 - Impressï¿½o de tela"
+    PA3D_Status.Caption = "R1FAB003 - Impressão de tela"
 
 End Sub
 
@@ -1009,7 +1009,7 @@ End Sub
 
 Private Sub bu3d_Volta_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
     
-    PA3D_Status.Caption = "R1FAB003 - Retorna ï¿½ tela anterior"
+    PA3D_Status.Caption = "R1FAB003 - Retorna à tela anterior"
 
 End Sub
 
@@ -1025,16 +1025,16 @@ Dim pos     As Integer
     Texto$ = Texto$ + Format$(Val(c_rmo$), "##") + "."
     Texto$ = Texto$ + Format(Val(u_apo_pnc$), "000000000")
     
-    Me.Caption = "Consulta ï¿½ apï¿½lice - " & Texto$
+    Me.Caption = "Consulta à apólice - " & Texto$
     
     'SS 142183 RS 1549 - Renato Santos 17/08/2011
     fr3d_ema_apo.Visible = False
       
     lb_n_pes.Caption = " " & UCase(n_pes$)
     
-    ' seleciona dados de correspondï¿½ncia
+    ' seleciona dados de correspondência
     If Not fu_sel_l() Then
-        MsgBox "Nï¿½o foi possï¿½vel localizar os dados para Correspondï¿½ncia.", MB_ICONEXCLAMATION, "ATENï¿½ï¿½O"
+        MsgBox "Não foi possível localizar os dados para Correspondência.", MB_ICONEXCLAMATION, "ATENÇÃO"
     End If
 
     fr3d_dest_doc.Visible = True
@@ -1047,8 +1047,8 @@ Dim pos     As Integer
     End If
 
     
-    'Luciane - 19/07/1999 - Inï¿½cio
-    'Mostra o destino dos documentos de apï¿½lice
+    'Luciane - 19/07/1999 - Início
+    'Mostra o destino dos documentos de apólice
     Select Case dad_adi(pos%).c_dph_doc_apo
         Case 1  'SEGURADO
             c_idt_pes_aux$ = c_idt_pes$
@@ -1059,11 +1059,11 @@ Dim pos     As Integer
             fr3d_dph_inf.Visible = True
             txt_dph_inf.Text = ""
 
-            lb_destino_inf.Caption = "Nï¿½CLEO"
+            lb_destino_inf.Caption = "NÚCLEO"
 
         Case 3  'CORRETOR
             If Not fu_sel_corretor() Then
-                MsgBox "Nï¿½o foi possï¿½vel localizar os dados para Correspondï¿½ncia - Corretor.", MB_ICONEXCLAMATION, "ATENï¿½ï¿½O"
+                MsgBox "Não foi possível localizar os dados para Correspondência - Corretor.", MB_ICONEXCLAMATION, "ATENÇÃO"
                 Screen.MousePointer = DEFAULT
                 Exit Sub
             End If
@@ -1073,7 +1073,7 @@ Dim pos     As Integer
 
         Case 4  'PAGADOR
             If Not fu_sel_pagador() Then
-                MsgBox "Nï¿½o foi possï¿½vel localizar os dados para Correspondï¿½ncia - Pagador.", MB_ICONEXCLAMATION, "ATENï¿½ï¿½O"
+                MsgBox "Não foi possível localizar os dados para Correspondência - Pagador.", MB_ICONEXCLAMATION, "ATENÇÃO"
                 Screen.MousePointer = DEFAULT
                 Exit Sub
             End If
@@ -1081,7 +1081,7 @@ Dim pos     As Integer
             c_idt_pes_aux$ = c_idt_pes_pgd$
             bu3d_Destino.Caption = "Pagador"
 
-        Case 5, 9   'ï¿½RGï¿½O PRODUTOR (5)  INFORMADO (9)
+        Case 5, 9   'ÓRGÃO PRODUTOR (5)  INFORMADO (9)
             
             fr3d_dest_doc.Visible = False
             fr3d_dph_inf.Visible = True
@@ -1089,11 +1089,11 @@ Dim pos     As Integer
 
             If dad_adi(pos%).c_dph_doc_apo = 5 Then
 
-                'bu3d_Destino.Caption = "ï¿½rg. Prod."
-                lb_destino_inf = "ï¿½RGï¿½O PRODUTOR"
+                'bu3d_Destino.Caption = "Órg. Prod."
+                lb_destino_inf = "ÓRGÃO PRODUTOR"
 
                 If Not fu_sel_org_prod() Then
-                    MsgBox "Nï¿½o foi possï¿½vel localizar os dados para Correspondï¿½ncia - ï¿½rgï¿½o Produtor.", MB_ICONEXCLAMATION, "ATENï¿½ï¿½O"
+                    MsgBox "Não foi possível localizar os dados para Correspondência - Órgão Produtor.", MB_ICONEXCLAMATION, "ATENÇÃO"
                     Screen.MousePointer = DEFAULT
                     Exit Sub
                 End If
@@ -1115,24 +1115,24 @@ Dim pos     As Integer
                 
                 '-- v066 Renato 12/12/2007 - SSI 38728 - Inicio
                 If Not FU_sel_dst_doc_apo() Then
-                    MsgBox Mensagem$, MB_ICONEXCLAMATION, "ATENï¿½ï¿½O"
+                    MsgBox Mensagem$, MB_ICONEXCLAMATION, "ATENÇÃO"
                     Screen.MousePointer = DEFAULT
                     Exit Sub
                 End If
             End If
         
-        Case 6, 7, 8  'SUB-RESPONS. (6), CENTRO PAGADOR (7), RESP. NEGï¿½CIO (8)
+        Case 6, 7, 8  'SUB-RESPONS. (6), CENTRO PAGADOR (7), RESP. NEGÓCIO (8)
 
             fr3d_dest_doc.Visible = False
             fr3d_dph_inf.Visible = True
             txt_dph_inf.Text = ""
 
             If dad_adi(pos%).c_dph_doc_apo = 6 Then
-                lb_destino_inf.Caption = "SUB-RESPONSï¿½VEL DO NEGï¿½CIO"
+                lb_destino_inf.Caption = "SUB-RESPONSÁVEL DO NEGÓCIO"
             ElseIf dad_adi(pos%).c_dph_doc_apo = 7 Then
                 lb_destino_inf.Caption = "CENTRO PAGADOR"
             ElseIf dad_adi(pos%).c_dph_doc_apo = 8 Then
-                lb_destino_inf.Caption = "RESPONSï¿½VEL DO NEGï¿½CIO"
+                lb_destino_inf.Caption = "RESPONSÁVEL DO NEGÓCIO"
             End If
         Case 10  'TOMADOR/GARANTIDO
             If Val(e_ptc_pes$) = 2 Or Val(e_ptc_pes$) = 3 Then
@@ -1144,7 +1144,7 @@ Dim pos     As Integer
             End If
 
             If Not FU_SEL_HIS_PTC_PES_S08676() Then
-                MsgBox "Erro na funï¿½ï¿½o FU_SEL_HIS_PTC_PES_S08676", MB_ICONEXCLAMATION, "ATENï¿½ï¿½O"
+                MsgBox "Erro na função FU_SEL_HIS_PTC_PES_S08676", MB_ICONEXCLAMATION, "ATENÇÃO"
                 Screen.MousePointer = DEFAULT
                 Exit Sub
             End If
@@ -1166,7 +1166,7 @@ Dim pos     As Integer
             fr3d_ema_apo.ZOrder (0)
             
             If Not FU_PR_EMA_APO_S19730(c_cia_ita$, c_rmo$, u_apo_pnc$, "0", Flx_ema_apo) Then
-                MsgBox "Erro ao selecionar E-mails da apï¿½lice", MB_ICONEXCLAMATION, "ATENï¿½ï¿½O"
+                MsgBox "Erro ao selecionar E-mails da apólice", MB_ICONEXCLAMATION, "ATENÇÃO"
                 Screen.MousePointer = DEFAULT
                 Exit Sub
             End If
@@ -1177,10 +1177,10 @@ Dim pos     As Integer
     u_ocr_l_dest$ = u_ocr_l_crs$
 
     'Se c_dph_doc_apo = 1 (Segurado) ou c_dph_doc_apo = 3 (Corretor) ou c_dph_doc_apo = 4 (Pagador),
-    'precisa acessar o nome e o endereï¿½o
+    'precisa acessar o nome e o endereço
     If dad_adi(pos%).c_dph_doc_apo = 1 Or dad_adi(pos%).c_dph_doc_apo = 3 Or dad_adi(pos%).c_dph_doc_apo = 4 Then
         If Not fu_acessa_pes_dest(c_idt_pes_aux$) Then
-            MsgBox "Nï¿½o foi possï¿½vel acessar pessoa.", MB_ICONEXCLAMATION, "ATENï¿½ï¿½O"
+            MsgBox "Não foi possível acessar pessoa.", MB_ICONEXCLAMATION, "ATENÇÃO"
             Screen.MousePointer = DEFAULT
             Exit Sub
         End If
@@ -1188,15 +1188,15 @@ Dim pos     As Integer
         'Se c_dph_doc_apo = 3 (corretor), obter U_OCR_L na tabela DBNPESSO..TB_PES_FIG_L
         If dad_adi(pos%).c_dph_doc_apo = 3 Then
             If Not PR_PES_FIG_L_S07567() Then
-                MsgBox "Ocorreu um erro na funï¿½ï¿½o PR_PES_FIG_L_S07567.", MB_ICONEXCLAMATION, "ATENï¿½ï¿½O"
+                MsgBox "Ocorreu um erro na função PR_PES_FIG_L_S07567.", MB_ICONEXCLAMATION, "ATENÇÃO"
                 Screen.MousePointer = DEFAULT
                 Exit Sub
             End If
         End If
 
-        ' seleciona dados de correspondï¿½ncia
+        ' seleciona dados de correspondência
         If Not fu_sel_l_dest(c_idt_pes_aux) Then
-            MsgBox "Nï¿½o foi possï¿½vel localizar os dados para Correspondï¿½ncia.", MB_ICONEXCLAMATION, "ATENï¿½ï¿½O"
+            MsgBox "Não foi possível localizar os dados para Correspondência.", MB_ICONEXCLAMATION, "ATENÇÃO"
             Screen.MousePointer = DEFAULT
             Exit Sub
         End If
@@ -1213,26 +1213,26 @@ Function FU_sel_dst_doc_apo() As Integer
 Dim c_err         As Integer
 Dim n_linhas      As Integer
 
-    'Habilitaï¿½ï¿½o da rotina de tratamento de erro.
+    'Habilitação da rotina de tratamento de erro.
     On Error GoTo TrataErroS16793
 
-    'Inicializaï¿½ï¿½o da funï¿½ï¿½o com valor False.
+    'Inicialização da função com valor False.
     FU_sel_dst_doc_apo = False
 
-    'Inicializaï¿½ï¿½o dos cï¿½digos de erro
+    'Inicialização dos códigos de erro
     'da DBLibrary e do SQL Server.
     Err_Syb& = 0
     Msg_Syb& = 0
 
-    'Inicializaï¿½ï¿½o da stored procedure.
+    'Inicialização da stored procedure.
     ret% = SQLRPCInit%(SqlConn%, "DBNPROD..PR_ADI_S16793", 0)
 
     If ret% = FAIL Then
-        MsgBox "Nï¿½o foi possï¿½vel inicializar a stored procedure PR_ADI_S16793.", MB_ICONEXCLAMATION
+        MsgBox "Não foi possível inicializar a stored procedure PR_ADI_S16793.", MB_ICONEXCLAMATION
         Exit Function
     End If
 
-    'Parï¿½metro(s) da stored procedure.
+    'Parâmetro(s) da stored procedure.
     If FU_Parametro(SqlConn, "@c_cia_ita", c_cia_ita$, SQLINT2%) = FAIL Then Exit Function
     If FU_Parametro(SqlConn, "@c_rmo", c_rmo$, SQLINT2%) = FAIL Then Exit Function
     If FU_Parametro(SqlConn, "@u_apo_pnc", u_apo_pnc$, SQLINT4%) = FAIL Then Exit Function
@@ -1243,19 +1243,19 @@ Dim n_linhas      As Integer
     If FU_Parametro_Ret(SqlConn, "@c_err", 0, SQLINT4%) = FAIL Then Exit Function
     If FU_Parametro_Ret(SqlConn, "@n_linhas", 0, SQLINT4%) = FAIL Then Exit Function
 
-    'Envio da lista de parï¿½metros ao servidor para ser executada.
+    'Envio da lista de parâmetros ao servidor para ser executada.
     ret% = SQLRPCSend%(SqlConn%)
 
     If ret% = FAIL Then
-        MsgBox "Nï¿½o foi possï¿½vel enviar a lista de parï¿½metros da stored procedure PR_ADI_S16793 ao servidor.", MB_ICONEXCLAMATION
+        MsgBox "Não foi possível enviar a lista de parâmetros da stored procedure PR_ADI_S16793 ao servidor.", MB_ICONEXCLAMATION
         Exit Function
     End If
 
-    'Verificaï¿½ï¿½o da exatidï¿½o dos comandos no command buffer.
+    'Verificação da exatidão dos comandos no command buffer.
     ret% = SqlOk%(SqlConn%)
 
     If ret% = FAIL Then
-        MsgBox "Nï¿½o foi possï¿½vel executar a stored procedure PR_ADI_S16793.", MB_ICONEXCLAMATION
+        MsgBox "Não foi possível executar a stored procedure PR_ADI_S16793.", MB_ICONEXCLAMATION
         Exit Function
     End If
 
@@ -1266,7 +1266,7 @@ Dim n_linhas      As Integer
 
         ret% = SqlNextRow%(SqlConn%)
 
-        'Recuperaï¿½ï¿½o e processamento dos dados em cada linha.
+        'Recuperação e processamento dos dados em cada linha.
         Do Until ret% = NOMOREROWS Or ret% = FAIL
 
             ret% = SqlNextRow%(SqlConn%)
@@ -1278,7 +1278,7 @@ Dim n_linhas      As Integer
     Loop
 
     If ret% = FAIL Then
-        MsgBox "Nï¿½o foi possï¿½vel processar os resultados da stored procedure PR_ADI_S16793.", MB_ICONEXCLAMATION
+        MsgBox "Não foi possível processar os resultados da stored procedure PR_ADI_S16793.", MB_ICONEXCLAMATION
         Exit Function
     End If
 
@@ -1287,20 +1287,20 @@ Dim n_linhas      As Integer
 
     'Nome \ Area do destinatario dos documentos
     txt_dph_inf.Text = Trim(SqlRetData$(SqlConn%, 1))
-    'Recuperaï¿½ï¿½o do cï¿½digo do erro na variï¿½vel local.
+    'Recuperação do código do erro na variável local.
     c_err% = Val(SqlRetData$(SqlConn%, 2))
-    'Armazenamento do nï¿½ de linhas afetadas
-    'pelo comando na variï¿½vel local.
+    'Armazenamento do nº de linhas afetadas
+    'pelo comando na variável local.
     n_linhas% = Val(SqlRetData$(SqlConn%, 3))
 
-    'O parï¿½metro OUTPUT da stored procedure indica ocorrï¿½ncia de erro.
+    'O parâmetro OUTPUT da stored procedure indica ocorrência de erro.
     If c_err% <> 0 Then
-        'Exibiï¿½ï¿½o da mensagem de erro ao usuï¿½rio.
-        Mensagem$ = "Erro " & Trim$(Str$(c_err%)) & " - Nï¿½o foi possï¿½vel localizar os dados para Correspondï¿½ncia - Responsï¿½vel pelo Negï¿½cio."
+        'Exibição da mensagem de erro ao usuário.
+        Mensagem$ = "Erro " & Trim$(Str$(c_err%)) & " - Não foi possível localizar os dados para Correspondência - Responsável pelo Negócio."
         Exit Function
     End If
     
-    'A funï¿½ï¿½o retorna valor True.
+    'A função retorna valor True.
     FU_sel_dst_doc_apo = True
 
     Exit Function
@@ -1315,7 +1315,7 @@ End Function
 
 Private Sub Form_DblClick()
     
-    MsgBox sg_versao$, MB_ICONINFORMATION, "VERSï¿½O"
+    MsgBox sg_versao$, MB_ICONINFORMATION, "VERSÃO"
 
 End Sub
 
@@ -1337,11 +1337,11 @@ End Sub
 Private Sub Form_Unload(Cancel As Integer)
 
 '20/11/1998 - Luciane/Hirata
-'Comando IF foi colocado devido a conversï¿½o de VB3 para VB5, porque o VB5
-'nï¿½o permite que o botï¿½o minimizar apareï¿½a, sem que o control box esteja
+'Comando IF foi colocado devido a conversão de VB3 para VB5, porque o VB5
+'não permite que o botão minimizar apareça, sem que o control box esteja
 'habilitado.
 'Houve a necessidade controlar o fechamento do form via control box, para
-'que conexï¿½es e bibliotecas nï¿½o permanecessem abertas.
+'que conexões e bibliotecas não permanecessem abertas.
 
     If Ind_UnloadMode = 0 Then
         
@@ -1357,7 +1357,7 @@ End Sub
 
 Private Function fu_acessa_pes_dest(c_idt_pes As String) As Integer
     
-    ' seleciona nome correspondente ao cï¿½digo da pessoa
+    ' seleciona nome correspondente ao código da pessoa
 
 Dim ret     As Integer
 
@@ -1370,7 +1370,7 @@ Dim ret     As Integer
        Exit Function
     End If
     
-    ' passa parï¿½metros
+    ' passa parâmetros
     If FU_Parametro(SqlConn, "@c_idt_pes", c_idt_pes$, SQLINT4%) = FAIL Then Exit Function
     If FU_Parametro_Ret(SqlConn, "@n_pes", "", SQLCHAR%) = FAIL Then Exit Function
     If FU_Parametro_Ret(SqlConn, "@c_rtn", "", SQLINT2%) = FAIL Then Exit Function
@@ -1435,7 +1435,7 @@ Dim i%
         If i_psl_pnc_i(i%) = "S" Then
 
             If SQLRPCInit%(SqlConn%, "DBNAPOIO..PR_UOG_S02489", 0) = FAIL% Then
-                MsgBox "Nï¿½o foi possivel iniciar a Stored Procedure DBNAPOIO..PR_UOG_S02489"
+                MsgBox "Não foi possivel iniciar a Stored Procedure DBNAPOIO..PR_UOG_S02489"
                 Exit Function
             End If
         
@@ -1443,13 +1443,13 @@ Dim i%
             
             ret% = SQLRPCSend%(SqlConn%)
             If ret% = FAIL% Then
-                MsgBox "Houve problemas no envio do comando: DBNAPOIO..PR_UOG_S02489.", 48, "ATENï¿½ï¿½O"
+                MsgBox "Houve problemas no envio do comando: DBNAPOIO..PR_UOG_S02489.", 48, "ATENÇÃO"
                 SU_Saida
             End If
             
             ret% = SqlOk%(SqlConn%)
             If ret% = FAIL% Then
-                MsgBox "Houve problemas na execuï¿½ï¿½o da Stored Procedure: DBNAPOIO..PR_UOG_S02489.", 48, "ATENï¿½ï¿½O"
+                MsgBox "Houve problemas na execução da Stored Procedure: DBNAPOIO..PR_UOG_S02489.", 48, "ATENÇÃO"
                 SU_Saida
             End If
             
@@ -1467,7 +1467,7 @@ Dim i%
             Loop
         
             If ret% = FAIL Then
-                MsgBox "Nï¿½o foi possï¿½vel colher resultados - DBNAPOIO..PR_UOG_S02489.", 48
+                MsgBox "Não foi possível colher resultados - DBNAPOIO..PR_UOG_S02489.", 48
                 Exit Function
             End If
         End If
@@ -1495,7 +1495,7 @@ Dim msg_err As String
        Exit Function
     End If
     
-    ' passa parï¿½metros
+    ' passa parâmetros
     If FU_Parametro(SqlConn, "@u_rgt_ssp", u_rgt_ssp_prp$, SQLINT4%) = FAIL% Then Exit Function
     If FU_Parametro(SqlConn, "@u_dac_rgt_ssp", u_dco_rgt_ssp_prp$, SQLINT4%) = FAIL% Then Exit Function
     If FU_Parametro(SqlConn, "@c_loc_pgt_cvd", c_loc_pgt_cvd_prp$, SQLINT4%) = FAIL% Then Exit Function
@@ -1559,7 +1559,7 @@ Dim Contador%
     Screen.MousePointer = HOURGLASS
 
     If SQLRPCInit%(SqlConn%, "DBNPROD..pr_his_ptc_uog_s07359", 0) = FAIL% Then
-        MsgBox "Nï¿½o foi possivel iniciar a Stored Procedure DBNPROD..pr_his_ptc_uog_s07359"
+        MsgBox "Não foi possivel iniciar a Stored Procedure DBNPROD..pr_his_ptc_uog_s07359"
         Exit Function
     End If
 
@@ -1573,13 +1573,13 @@ Dim Contador%
 
     ret% = SQLRPCSend%(SqlConn%)
     If ret% = FAIL% Then
-        MsgBox "Houve problemas no envio do comando : DBNPROD..pr_his_ptc_uog_s07359.", 48, "ATENï¿½ï¿½O"
+        MsgBox "Houve problemas no envio do comando : DBNPROD..pr_his_ptc_uog_s07359.", 48, "ATENÇÃO"
         SU_Saida
     End If
 
     ret% = SqlOk%(SqlConn%)
     If ret% = FAIL% Then
-        MsgBox "Houve problemas na execuï¿½ï¿½o da Stored Procedure : DBNPROD..pr_his_ptc_uog_s07359.", 48, "ATENï¿½ï¿½O"
+        MsgBox "Houve problemas na execução da Stored Procedure : DBNPROD..pr_his_ptc_uog_s07359.", 48, "ATENÇÃO"
         End
     End If
 
@@ -1612,7 +1612,7 @@ Dim Contador%
     Loop
 
     If ret% = FAIL Then
-        MsgBox "Nï¿½o foi possï¿½vel colher resultados - fu_sel_org_prod.", 48
+        MsgBox "Não foi possível colher resultados - fu_sel_org_prod.", 48
         Exit Function
     End If
 
@@ -1639,7 +1639,7 @@ Dim ret     As Integer
        Exit Function
     End If
     
-    ' passa parï¿½metros
+    ' passa parâmetros
     If FU_Parametro(SqlConn, "@c_cia_ita", c_cia_ita$, SQLINT2%) = FAIL% Then Exit Function
     If FU_Parametro(SqlConn, "@c_rmo", c_rmo$, SQLINT2%) = FAIL% Then Exit Function
     If FU_Parametro(SqlConn, "@u_apo_pnc", u_apo_pnc$, SQLINT4%) = FAIL% Then Exit Function
@@ -1666,7 +1666,7 @@ Dim ret     As Integer
        Exit Function
     End If
     
-    'Adriana - 21/11/2001 - Consistï¿½ncia do c_idt_pes_pgd
+    'Adriana - 21/11/2001 - Consistência do c_idt_pes_pgd
     c_idt_pes_pgd = ""
     
     ' processa resultados
@@ -1692,7 +1692,7 @@ End Function
 
 Private Function PR_PES_FIG_L_S07567()
 
-' seleciona nome correspondente ao cï¿½digo da pessoa
+' seleciona nome correspondente ao código da pessoa
 
 Dim ret     As Integer
 Dim msg_err As String
@@ -1706,7 +1706,7 @@ Dim msg_err As String
        Exit Function
     End If
     
-    ' passa parï¿½metros
+    ' passa parâmetros
     If FU_Parametro(SqlConn, "@c_idt_fig", "2", SQLINT2) = FAIL Then Exit Function
     If FU_Parametro(SqlConn, "@c_idt_pes", c_idt_pes_aux$, SQLINT4%) = FAIL Then Exit Function
     If FU_Parametro_Ret(SqlConn, "@u_ocr_l", "", SQLINT4%) = FAIL Then Exit Function

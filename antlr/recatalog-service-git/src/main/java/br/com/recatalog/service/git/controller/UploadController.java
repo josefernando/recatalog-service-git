@@ -1,23 +1,23 @@
 package br.com.recatalog.service.git.controller;
 
+import java.net.URI;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
-import org.springframework.http.ResponseEntity;
 import org.springframework.http.HttpHeaders;
-
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
 
 import br.com.recatalog.service.git.service.StorageService;
 
@@ -46,21 +46,78 @@ public class UploadController {
 		return "uploadForm";
 	}
 	
-	@GetMapping("/getallfiles")
-	public String getListFiles(Model model) {
+	@PostMapping("/folder")
+	public String handleFolderFileUpload(@RequestParam("files") MultipartFile[] mpFiles, Model model) {
+		List<MultipartFile> filesPart = Arrays.asList(mpFiles);
 		
-		model.addAttribute("files",
-				files.stream()
-					.map(fileName -> MvcUriComponentsBuilder
-							.fromMethodName(UploadController.class, "getFile", fileName).build().toString())
-					.collect(Collectors.toList()));
+		filesPart.stream().forEach(file -> {
+			storageService.storeFolder(file);
+			files.add(file.getOriginalFilename());
+		});
+
+		
+//		List<String> folder = filesPart.stream()
+//				.map(fileName -> fileName.getOriginalFilename())
+//				.collect(Collectors.toList());
+		model.addAttribute("message", "Files selected: " + filesPart.size());
+		return "uploadForm";
+	}
+	
+//	@GetMapping("/getallfiles")
+//	public String getListFiles(Model model, HttpServletRequest request) {
+//		
+//	    String urlx = request.getRequestURL().toString();
+//	    // or this
+//	    String url = request.getLocalAddr();
+//	    
+//		model.addAttribute("files",
+//				files.stream()
+//					.map(fileName -> MvcUriComponentsBuilder
+//							.fromMethodName(UploadController.class, "getFile", fileName).build().toString())
+//					.collect(Collectors.toList()));
+//		model.addAttribute("totalFiles", "TotalFiles: " + files.size());
+//		return "listFiles";
+//	}
+	
+	@GetMapping("/getallfiles")
+	public String getListFiles(Model model, HttpServletRequest request) {
+		
+	    String requestedUrl = request.getRequestURL().toString();
+	    
+	    
+	    requestedUrl = requestedUrl.replace(request.getServletPath(), "/files");
+	    
+	    List<String> fileList = new ArrayList<String>();
+	    
+	    for(String f : files) {
+	    	fileList.add(URI.create(requestedUrl + "/" + f).toString());
+	    }
+	    
+		model.addAttribute("files", fileList);
+					
 		model.addAttribute("totalFiles", "TotalFiles: " + files.size());
 		return "listFiles";
 	}
+
+
 	
-	@GetMapping("files/{filename:.+}")
+	
+//	@GetMapping("files/{filename:.+}")
+//	@ResponseBody
+//	public ResponseEntity<Resource> getFile(@PathVariable String filename) {
+//		Resource file = storageService.loadFile(filename);
+//		return ResponseEntity.ok()
+//				.header(HttpHeaders.CONTENT_DISPOSITION
+//						, "attachment; filename=\"" + file.getFilename() + "\"")
+////				        , "inline")
+//				.body(file);
+//	}
+	
+	@GetMapping("files/**")
 	@ResponseBody
-	public ResponseEntity<Resource> getFile(@PathVariable String filename) {
+	public ResponseEntity<Resource> getFile(HttpServletRequest request) {
+		String filename = request.getRequestURI()
+		        .split(request.getContextPath() + "/files/")[1];
 		Resource file = storageService.loadFile(filename);
 		return ResponseEntity.ok()
 				.header(HttpHeaders.CONTENT_DISPOSITION
@@ -68,4 +125,5 @@ public class UploadController {
 //				        , "inline")
 				.body(file);
 	}
+
 }
