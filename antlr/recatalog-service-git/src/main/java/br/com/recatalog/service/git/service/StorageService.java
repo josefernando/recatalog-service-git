@@ -17,7 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 @Service
 public class StorageService {
 	
-	private Logger logger = LoggerFactory.getLogger(GitRepoService.class);
+	private Logger logger = LoggerFactory.getLogger(StorageService.class);
 	
 	private final  Path rootLocation = Paths.get("upload-dir");
 	
@@ -33,20 +33,15 @@ public class StorageService {
 	
 	public void storeFolder(MultipartFile file) {
 		try {
-
-			
 			Path path = Paths.get(file.getOriginalFilename());
 			
 			Path pp = Paths.get(path.subpath(0, path.getNameCount()-1).toString());
 			
 			Path px = rootLocation.resolve(pp);
 			
-//			Path ndir = null;
-			
 			if(!Files.exists(px)) {
 				Files.createDirectories(px);
 			}
-			
 			
 			Path target = px.resolve(path.getFileName().toString());
 			

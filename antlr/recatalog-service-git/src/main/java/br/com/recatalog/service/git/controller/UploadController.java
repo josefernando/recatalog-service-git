@@ -55,10 +55,6 @@ public class UploadController {
 			files.add(file.getOriginalFilename());
 		});
 
-		
-//		List<String> folder = filesPart.stream()
-//				.map(fileName -> fileName.getOriginalFilename())
-//				.collect(Collectors.toList());
 		model.addAttribute("message", "Files selected: " + filesPart.size());
 		return "uploadForm";
 	}
@@ -78,12 +74,21 @@ public class UploadController {
 //		model.addAttribute("totalFiles", "TotalFiles: " + files.size());
 //		return "listFiles";
 //	}
+//
+//	@GetMapping("files/{filename:.+}")
+//	@ResponseBody
+//	public ResponseEntity<Resource> getFile(@PathVariable String filename) {
+//		Resource file = storageService.loadFile(filename);
+//		return ResponseEntity.ok()
+//				.header(HttpHeaders.CONTENT_DISPOSITION
+//						, "attachment; filename=\"" + file.getFilename() + "\"")
+////				        , "inline")
+//				.body(file);
+//	}	
 	
 	@GetMapping("/getallfiles")
 	public String getListFiles(Model model, HttpServletRequest request) {
-		
 	    String requestedUrl = request.getRequestURL().toString();
-	    
 	    
 	    requestedUrl = requestedUrl.replace(request.getServletPath(), "/files");
 	    
@@ -98,20 +103,6 @@ public class UploadController {
 		model.addAttribute("totalFiles", "TotalFiles: " + files.size());
 		return "listFiles";
 	}
-
-
-	
-	
-//	@GetMapping("files/{filename:.+}")
-//	@ResponseBody
-//	public ResponseEntity<Resource> getFile(@PathVariable String filename) {
-//		Resource file = storageService.loadFile(filename);
-//		return ResponseEntity.ok()
-//				.header(HttpHeaders.CONTENT_DISPOSITION
-//						, "attachment; filename=\"" + file.getFilename() + "\"")
-////				        , "inline")
-//				.body(file);
-//	}
 	
 	@GetMapping("files/**")
 	@ResponseBody
@@ -125,5 +116,4 @@ public class UploadController {
 //				        , "inline")
 				.body(file);
 	}
-
 }

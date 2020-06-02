@@ -12,24 +12,23 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import br.com.recatalog.util.PropertyList;
+import br.com.recatalog.service.git.exception.GitAlreadyExistsException;
+import br.com.recatalog.service.git.exception.GitRequestException;
 
 @Service
-public class GitRepoService {
+public class GitRepositoryService {
 	
-	@Value("${repo.path.base}")
-	private String repoPathBase;
+	@Value("${repo.path.root}")
+	private String repoPathRoot;
 	
-	private Logger logger = LoggerFactory.getLogger(GitRepoService.class);
+	private Logger logger = LoggerFactory.getLogger(GitRepositoryService.class);
 	
-	public PropertyList init(String repoName) {
-		PropertyList propertyList = new PropertyList();
+	public String init(String repoName) { 
 		
-		String repoPath = repoPathBase + System.getProperty("file.separator") + repoName;
+		String repoPath = repoPathRoot + System.getProperty("file.separator") + repoName;
 		
 		if(open(repoName) != null) {
-			propertyList.addProperty("ERROR", "REPOSITORY ALREADY EXISTS: " + repoPath);
-			return propertyList;
+			throw new GitAlreadyExistsException(String.format("Repository '%s' already exists!!",repoName));
 		}
 		
 		File repoFolder = new File(repoPath);
@@ -43,24 +42,23 @@ public class GitRepoService {
 			repo.create();
 		} catch (IOException e) {
 			logger.error("RECATALOG: " + e.getMessage()) ;
+			throw new GitRequestException(String.format(e.getMessage(),repoName));
 		}
 		
 		if (repo != null) {
 			try {
 				repoPath = repo.getDirectory().getCanonicalPath();
-				propertyList.addProperty("OBJECT", repoPath);
 			}
 			catch (IOException e) {
 				logger.error("Error: " + e.getMessage()) ;
+				throw new GitRequestException(String.format(e.getMessage(),repoName));
 			}
 		}
-			
-		return propertyList;
+		return repoPath;
 	}
-
 	
 	public Repository open(String repoName) {
-		File repoFolder = new File(repoPathBase 
+		File repoFolder = new File(repoPathRoot 
 									+ System.getProperty("file.separator") 
 									+ repoName
 									+ System.getProperty("file.separator") 
@@ -76,6 +74,7 @@ public class GitRepoService {
 			}
 		} catch (IOException e) {
 			logger.error("Error: " + e.getMessage()) ;
+			throw new GitRequestException(String.format(e.getMessage(),repoName));
 		}
 		return repo;
 	}	
@@ -88,10 +87,9 @@ public class GitRepoService {
 		try {
 			FileUtils.copyFile(folderToCopy, gitFile);
 		} catch (IOException e) {
-			e.printStackTrace();
-			return null;
+			logger.error("Error: " + e.getMessage()) ;
+			throw new GitRequestException(String.format(e.getMessage(),pathFolderToCopy));
 		}
-		
 		return gitFile.getName();
 	}
 }
