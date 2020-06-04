@@ -16,6 +16,7 @@
 
 	<properties>
 		<java.version>13</java.version>
+		<spring-cloud.version>Hoxton.SR5</spring-cloud.version>
 	</properties>
 
 	<dependencies>
@@ -43,10 +44,24 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-thymeleaf</artifactId>
 		</dependency>
+		
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
+		
+		<!-- https://mvnrepository.com/artifact/org.springframework.cloud/spring-cloud-starter-netflix-eureka-client -->
+		<dependency>
+		    <groupId>org.springframework.cloud</groupId>
+		    <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+		</dependency>
+		
+		
+		<dependency>
+	        <groupId>org.springframework.boot</groupId>
+	        <artifactId>spring-boot-starter-actuator</artifactId>
+    	</dependency>
+		
 	<!-- youtube: romanian coder 
 	     https://www.youtube.com/watch?v=pOMns4h5fQg&list=PLVApX3evDwJ1d0lKKHssPQvzv2Ao3e__Q&index=26
 	     Spring Security Thymeleaf Integration
@@ -141,6 +156,18 @@
 	            <!-- version>1.6.1</version-->
 	 	</dependency>		
 	</dependencies>
+	
+	<dependencyManagement>
+	     <dependencies>
+			<dependency>
+			    <groupId>org.springframework.cloud</groupId>
+			    <artifactId>spring-cloud-dependencies</artifactId>
+			    <version>Hoxton.SR5</version>
+			    <type>pom</type>
+			    <scope>import</scope>
+			</dependency>
+	    </dependencies>
+	</dependencyManagement>	
 
 	<build>
 		<plugins>

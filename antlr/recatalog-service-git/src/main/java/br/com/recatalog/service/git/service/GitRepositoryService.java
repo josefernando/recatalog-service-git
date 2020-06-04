@@ -27,9 +27,9 @@ public class GitRepositoryService {
 		
 		String repoPath = repoPathRoot + System.getProperty("file.separator") + repoName;
 		
-		if(open(repoName) != null) {
-			throw new GitAlreadyExistsException(String.format("Repository '%s' already exists!!",repoName));
-		}
+//		if(open(repoName) != null) {
+//			throw new GitAlreadyExistsException(String.format("Repository '%s' already exists!!",repoName));
+//		}
 		
 		File repoFolder = new File(repoPath);
 		
