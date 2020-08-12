@@ -3,7 +3,6 @@ package br.com.recatalog.selenium.demo;
 
 import static org.junit.Assert.assertEquals;
 
-import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import org.junit.Test;
@@ -30,13 +29,16 @@ public class SeleniumTest {
 		WebElement we = w1.findElement(By.cssSelector("input[type='text']"));
 		WebElement wsub = w1.findElement(By.cssSelector("input[type='submit']"));
 
-		we.sendKeys("B3SA3");
+		we.sendKeys("BOVA11");
 		we.sendKeys(Keys.ENTER); // escolha ação
 		
 		wsub.sendKeys(Keys.ENTER); // pesquisa ...
 		
-		WebElement wlink = w1.findElement(By.linkText("5"));
-		wlink.sendKeys(Keys.ENTER); // vai para página 5
+		WebElement wlink = w1.findElement(By.linkText("Ativo pesquisado"));
+		
+		wlink.click();
+//		WebElement wlink = w1.findElement(By.linkText("5"));
+//		wlink.sendKeys(Keys.ENTER); // vai para página 5
 
 		assertEquals(1, 1);
 	}
