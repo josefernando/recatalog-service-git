@@ -1,0 +1,9 @@
+    If Len(tb_isg_bnj.Text) = tb_isg_bnj.MaxLength Then
+        
+        If bu3d_ok.Enabled Then
+            bu3d_ok.SetFocus
+        Else
+            SendKeys "{tab}", True 'Modif. por Helder (OPUS), 8/3/99
+        End If
+    
+    End If
