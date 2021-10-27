@@ -11,7 +11,7 @@ import br.com.recatalog.util.PropertyList;
 
 public abstract class BaseScope implements Scope {
 	SymbolTable symbolTable;
-	Scope globalScope;
+	Scope globalScope; 
 	Scope enclosingScope;
 	Scope nextUpScope;    // na resolução de símbolo, esse campo é inicializado pelo procedimento de 
 	                      // resolução e move para esse campo  escopo de retorno a ser pesquisado

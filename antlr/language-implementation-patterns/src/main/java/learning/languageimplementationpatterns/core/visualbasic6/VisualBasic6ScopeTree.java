@@ -1,0 +1,40 @@
+package learning.languageimplementationpatterns.core.visualbasic6;
+
+import java.security.InvalidParameterException;
+import java.util.ArrayDeque;
+import java.util.ArrayList;
+import java.util.Deque;
+import java.util.HashMap;
+import java.util.Map;
+
+import org.antlr.v4.runtime.ParserRuleContext;
+import org.antlr.v4.runtime.tree.ParseTree;
+import org.antlr.v4.runtime.tree.ParseTreeWalker;
+
+import br.com.recatalog.languageimplementationpatterns.parser.visualbasic6.VisualBasic6CompUnitParser;
+import br.com.recatalog.languageimplementationpatterns.parser.visualbasic6.VisualBasic6CompUnitParser.AsTypeClauseContext;
+import br.com.recatalog.languageimplementationpatterns.parser.visualbasic6.VisualBasic6CompUnitParser.DeclarationContext;
+import br.com.recatalog.languageimplementationpatterns.parser.visualbasic6.VisualBasic6CompUnitParser.EnumDefStmtContext;
+import br.com.recatalog.languageimplementationpatterns.parser.visualbasic6.VisualBasic6CompUnitParser.FormalParameterContext;
+import br.com.recatalog.languageimplementationpatterns.parser.visualbasic6.VisualBasic6CompUnitParser.LshAssignContext;
+import br.com.recatalog.languageimplementationpatterns.parser.visualbasic6.VisualBasic6CompUnitParser.MethodDefStmtContext;
+import br.com.recatalog.languageimplementationpatterns.parser.visualbasic6.VisualBasic6CompUnitParser.ModifierContext;
+import br.com.recatalog.languageimplementationpatterns.parser.visualbasic6.VisualBasic6CompUnitParser.ModuleContext;
+import br.com.recatalog.languageimplementationpatterns.parser.visualbasic6.VisualBasic6CompUnitParser.ReDimStmtContext;
+import br.com.recatalog.languageimplementationpatterns.parser.visualbasic6.VisualBasic6CompUnitParser.RealParameterContext;
+import br.com.recatalog.languageimplementationpatterns.parser.visualbasic6.VisualBasic6CompUnitParser.RshAssignContext;
+import br.com.recatalog.languageimplementationpatterns.parser.visualbasic6.VisualBasic6CompUnitParser.ScopeModifierContext;
+import br.com.recatalog.languageimplementationpatterns.parser.visualbasic6.VisualBasic6CompUnitParser.TypeContext;
+import br.com.recatalog.languageimplementationpatterns.parser.visualbasic6.VisualBasic6CompUnitParser.TypeDefStmtContext;
+import br.com.recatalog.languageimplementationpatterns.parser.visualbasic6.VisualBasic6CompUnitParser.VariableDeclarationContext;
+import br.com.recatalog.languageimplementationpatterns.parser.visualbasic6.VisualBasic6CompUnitParser.VariableStmtContext;
+import br.com.recatalog.languageimplementationpatterns.parser.visualbasic6.VisualBasic6CompUnitParserBaseListener;
+import br.com.recatalog.util.BicamSystem;
+import br.com.recatalog.util.NodeExplorer;
+import br.com.recatalog.util.PropertyList;
+import learning.languageimplementationpatterns.core.Scope;
+import learning.languageimplementationpatterns.core.SymbolFactory;
+import learning.languageimplementationpatterns.core.SymbolTable;
+import learning.languageimplementationpatterns.core.SymbolTableBuilder;
+import learning.languageimplementationpatterns.util.ModuleProperty;
+

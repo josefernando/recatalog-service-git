@@ -260,7 +260,7 @@ fieldLength :
 ;
 
 initialValue :  
-  EQUAL_CHAR  expr 
+   '='   expr 
 ;
 
 methodType : 
@@ -303,7 +303,7 @@ realParameterList :
 ;
 
 realParameter :
-	RealFormalParam=expr   (EQUAL_CHAR | ':=') RealParam=expr |  RealParam=expr   
+	RealFormalParam=expr   ('=' | ':=') RealParam=expr |  RealParam=expr   
 ;
 
 endOfStmt : 
@@ -320,7 +320,7 @@ declaration :
 ;
 
 runTimeDependency : 
-	OBJECT EQUAL_CHAR runTimeDependencyDeclaration 
+	OBJECT '=' runTimeDependencyDeclaration 
 ;
 
 runTimeDependencyDeclaration : 
@@ -362,8 +362,8 @@ alias :
 ;
 
 formalParameters :
-	  LPAREN_CHAR RPAREN_CHAR  
-	|   LPAREN_CHAR    formalParameter   (','   formalParameter)*   RPAREN_CHAR 
+	  '('   ')'  
+	|   '('    formalParameter   (','   formalParameter)*   ')'  
 ;
 
 formalParameter : 
@@ -372,7 +372,7 @@ formalParameter :
 ;
 
 arrayDef :
- LPAREN_CHAR realParameterList? RPAREN_CHAR 
+ '(' realParameterList? ')' 
 ;
 
 variableStmt : 
@@ -387,7 +387,7 @@ asTypeClause :
 ;
 
 redimRange :
- LPAREN_CHAR expr TO expr RPAREN_CHAR
+ '(' expr TO expr ')'
 ;
 
 enumDefStmt :
@@ -557,7 +557,7 @@ closeStmt :
 
 //=> Date = date [ filenumberlist ] https://docs.microsoft.com/en-us/office/vba/language/reference/user-interface-help/date-statement
 dateStmt : 
-	DATE EQUAL_CHAR expr  
+	DATE '=' expr  
 ;
 
 //=> DeleteSetting appname, section, [ key ] https://docs.microsoft.com/en-us/office/vba/language/reference/user-interface-help/deletesetting-statement
@@ -914,7 +914,7 @@ stopStmt :
 ;
 
 timeStmt : 
-	TIME EQUAL_CHAR  expr
+	TIME '='  expr
 ;
 
 //=> https://docs.microsoft.com/en-us/office/vba/language/reference/user-interface-help/load-statement
@@ -1054,8 +1054,7 @@ attributeBlock :
 ;
 
 attributeInLine :
-//	assignmentStmt   endOfStmt
-	   expr EQUAL_CHAR VALUEPROPERTY endOfStmt+
+	assignmentStmt   endOfStmt
 ;
 
 formDefinitionBlock : 
@@ -1069,13 +1068,11 @@ formDefinitionBlock :
 ;
 
 guiAttribute : 
-//	   assignmentStmt endOfStmt+
-	   expr EQUAL_CHAR VALUEPROPERTY endOfStmt+
-
+	   assignmentStmt endOfStmt+
 ;
 
 guiProperty : 
-	BEGINPROPERTY Name=expr curlyLiteral? endOfStmt+?
+	BEGINPROPERTY Name=expr expr? endOfStmt+?
 		(guiProperty | guiAttribute)+?
 	ENDPROPERTY endOfStmt+
 ;	
@@ -1089,12 +1086,12 @@ expr :
 ;
 
 expression :
-      LPAREN_CHAR expression RPAREN_CHAR                
+      '(' expression ')'                   
     |  atom                                
       
-    | expression LPAREN_CHAR RPAREN_CHAR                   
-    | expression LPAREN_CHAR realParameterList RPAREN_CHAR  
-    | expression LPAREN_CHAR realParameterList RPAREN_CHAR '-'   LPAREN_CHAR realParameterList RPAREN_CHAR // Printer.Line (5, (11 * fator) + y0)-(5, (17 * fator) + y0)    
+    | expression '(' ')'                   
+    | expression '(' realParameterList ')'  
+    | expression '(' realParameterList ')' '-'   '(' realParameterList ')' // Printer.Line (5, (11 * fator) + y0)-(5, (17 * fator) + y0)    
     
     | memberAccessOp expression 
     
@@ -1115,12 +1112,12 @@ expression :
 ;
 
 condExpression :
-      LPAREN_CHAR condExpression RPAREN_CHAR                   
+      '(' condExpression ')'                   
     |  atom                                
       
-    | condExpression LPAREN_CHAR RPAREN_CHAR                   
-    | condExpression LPAREN_CHAR condRealParameterList RPAREN_CHAR 
-    | condExpression LPAREN_CHAR condRealParameterList RPAREN_CHAR '-' LPAREN_CHAR condRealParameterList RPAREN_CHAR  // Printer.Line (5, (11 * fator) + y0)-(5, (17 * fator) + y0)
+    | condExpression '(' ')'                   
+    | condExpression '(' condRealParameterList ')'  
+    | condExpression '(' condRealParameterList ')' '-' '(' condRealParameterList ')'  // Printer.Line (5, (11 * fator) + y0)-(5, (17 * fator) + y0)
     
     | memberAccessOp condExpression 
     
@@ -1233,25 +1230,25 @@ exponential :
 literal : 
    	  stringLiteral 
     | booleanLiteral
-//	| imageValue   
-// 	| shortcut  
-//	| curlyLiteral  
+	| imageValue   
+ 	| shortcut  
+	| curlyLiteral  
 	| dateLiteral  
     | hexLiteral 
-//    | colorLiteral 
+    | colorLiteral 
     ;
     
 stringLiteral :
 	STRING_LITERAL
 ; 
 
-//imageValue :
-//	IMAGE_VALUE
-//;   
+imageValue :
+	IMAGE_VALUE
+;   
 
-//shortcut :
-//	SHORTCUT
-//;
+shortcut :
+	SHORTCUT
+;
 
 curlyLiteral :
 	CURLY_LITERAL
@@ -1265,9 +1262,9 @@ dateLiteral :
 	DATELITERAL
 ;
 
-//colorLiteral :
-//	COLORLITERAL
-//;
+colorLiteral :
+	COLORLITERAL
+;
   
 booleanLiteral :
 	TRUE | FALSE

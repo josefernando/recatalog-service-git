@@ -29,13 +29,19 @@ public abstract class Symbol {
 			  add("LANGUAGE");
 			}
 		};
-
-		constructorParametersValidate(constructorParameters);
-		this.name = (String)getProperty("NAME");
-		this.scope = (Scope)getProperty("SCOPE");
-		this.context = (ParserRuleContext)getProperty("CONTEXT");
-		this.type = (Type)getProperty("TYPE");
-		this.language = (Language)getProperty("LANGUAGE");
+		
+//		constructorParametersValidate(constructorParameters);
+//		this.name = (String)getProperty("NAME");
+//		this.scope = (Scope)getProperty("SCOPE");
+//		this.context = (ParserRuleContext)getProperty("CONTEXT");
+//		this.type = (Type)getProperty("TYPE");
+//		this.language = (Language)getProperty("LANGUAGE");
+		
+		this.name = (String)getProperties().mustProperty("NAME");
+		this.scope = (Scope)getProperties().getProperty("SCOPE");
+		this.context = (ParserRuleContext)getProperties().getProperty("CONTEXT");
+//		this.type = (Type)getProperty("TYPE");
+//		this.language = (Language)getProperty("LANGUAGE");
 		
 		scope.define(this);
 	}

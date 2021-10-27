@@ -40,6 +40,10 @@ public class VisualBasic6ParserCompUnit {
 	public Double getElapsedTime(){
 		return (Double)properties.getProperty("ELAPSED_TIME");
 	}
+	
+	public Double getParsingTime(){
+		return (Double)properties.getProperty("PARSING_TIME");
+	}
 
 	public PropertyList getProperties(){
 		return properties;
@@ -157,7 +161,8 @@ public class VisualBasic6ParserCompUnit {
 			}
 		}
 		
-		properties.addProperty("ELAPSED_TIME", parser.getTotalElapsedTime());
+		properties.addProperty("ELAPSED_TIME", parser.getTotalElapsedTime()); // Compatibility only
+		properties.addProperty("PARSING_TIME", parser.getTotalElapsedTime());
 
 		StringBuilder sb = new StringBuilder();
 		FileInputStream fis = null;
@@ -174,5 +179,14 @@ public class VisualBasic6ParserCompUnit {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+	
+// Unit test	
+	public static void main(String[] args) {
+		PropertyList properties = new PropertyList();
+		properties.addProperty("FILE_PATH", "C:\\workspace\\antlr\\parser.visualbasic6\\src\\main\\resources\\R1PAB001\\R1FAB001.FRM");
+		VisualBasic6ParserCompUnit parser = new VisualBasic6ParserCompUnit(properties);
+		System.err.println("Total time: " + parser.getElapsedTime());
+		System.err.println("Total Errors: " + parser.getNumErrors());
 	}
 }

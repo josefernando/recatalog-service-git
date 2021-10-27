@@ -1,4 +1,5 @@
-package learning.languageimplementationpatterns.core.visualbasic6;
+package learning.languageimplementationpatterns.util;
+
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -8,9 +9,7 @@ import java.io.InputStreamReader;
 import java.net.URI;
 import java.net.URL;
 import java.net.URLConnection;
-import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -24,7 +23,7 @@ import br.com.recatalog.util.BicamSystem;
 import br.com.recatalog.util.ParserInventory;
 
 public class ParserRegexVisualBasic6 {
-	ParserInventory inventory;
+	ParserStatistics inventory;
 	Path path;                                // file name     
 	URL url;
     URLConnection urlConnection;
@@ -41,7 +40,7 @@ public class ParserRegexVisualBasic6 {
 	int insideBeginBlock;
 	
 	BufferedReaderforRegex br;
-	
+    
 	Map<String,List<String>> elementsRegex;    // DEFVAR, DEFMETHDOC, STMT, etc...
 	
 	
@@ -141,24 +140,19 @@ public class ParserRegexVisualBasic6 {
 
 	
 	public ParserRegexVisualBasic6(File file) {
-//		File utfFile = null;
-//		try {
-//			utfFile = BicamSystem.toFileUTF8(file.getCanonicalPath());
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		}
-		this.inventory     = new ParserInventory();
-//		this.br = new BufferedReaderforRegex(utfFile);
-		this.br = new BufferedReaderforRegex(file);
-	
-	
-		
-		
+		File utfFile = null;
+		try {
+			utfFile = BicamSystem.toFileUTF8(file.getCanonicalPath());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		this.inventory     = new ParserStatistics();
+		this.br = new BufferedReaderforRegex(utfFile);
 		loadCommands();
 		run();
 	}
 	
-	public ParserInventory getInventory(){
+	public ParserStatistics getInventory(){
 		return inventory;
 	}
 	
@@ -317,11 +311,11 @@ public class ParserRegexVisualBasic6 {
 			}
 			
 			if(endOfMethod(line)) {
-//			System.err.println(br.getCurrentLine() + " END METHOD "  + line);
+//				System.err.println(br.getCurrentLine() + " END METHOD "  + line);
 
 				if(insideMethod) insideMethod = false;
 				else {
-					BicamSystem.printLog("ERROR", "Saida de Method invalida");
+					BicamSystem.printLog("ERROR", "SaÃ­da de Method invÃ¡lida");
 				}
 				line = br.nextLine();
 				continue;
@@ -831,7 +825,7 @@ public class ParserRegexVisualBasic6 {
 	}
 
 	public void print() {
-		System.out.println(getInventory().getInventory());
+		System.out.println(getInventory().getStatistics());
 		System.out.println(getInventory().sumByelementClass());
 	}
 	
@@ -1058,19 +1052,13 @@ public class ParserRegexVisualBasic6 {
 	}
     
 	private void open(File file) {
-				Path path = null;
-				try {
-					path = Paths.get(file.getCanonicalPath());
-				} catch (IOException e1) {
-					e1.printStackTrace();
-				}
-			
 		  try {
-			  br = Files.newBufferedReader(path); // Para ler UTF8 - default Java 8
+			  br = new BufferedReader(new InputStreamReader(new FileInputStream(file)));
 		  } catch(Exception e) {
 			e.printStackTrace();
 		  }
 	}
+	
     
 //	private void open(Path path) {
 //		  try {

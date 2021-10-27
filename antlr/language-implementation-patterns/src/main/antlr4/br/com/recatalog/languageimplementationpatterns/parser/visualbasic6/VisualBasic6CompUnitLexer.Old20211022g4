@@ -34,21 +34,10 @@ text1.Text = "Hello" : text1.BackColor = System.Drawing.Color.Red
 }
 
 tokens {  IDENTIFIER
-         , FLOAT
-         , INTEGER
-         , STRING_LITERAL
-         , LABEL 
-         , DOT_CHAR
-         , END
-         , BEGIN
-         , BEGINPROPERTY
-         , ENDPROPERTY
-         , EQUAL_CHAR
-         , CURLY_LITERAL
-         , VALUEPROPERTY
-         , LPAREN_CHAR
-         , RPAREN_CHAR
-         , NEWLINE}
+         ,FLOAT
+         ,INTEGER
+         ,STRING_LITERAL
+         ,LABEL }
          
 channels { HIDDEN_WHITESPACE 
            , HIDDEN_COMMENT
@@ -102,7 +91,7 @@ APPEND : A P P E N D ;
 AS : A S ;
 ATTRIBUTE : A T T R I B U T E ;
 BEEP : B E E P ;
-BEGIN : B E G I N -> pushMode(BeginMode) ;
+BEGIN : B E G I N ;
 BINARY : B I N A R Y ;
 BOOLEAN : B O O L E A N ;
 BYREF :  B Y R E F ;
@@ -145,7 +134,7 @@ EACH : E A C H  ;
 ELSE :  E L S E ;
 ELSEIF : E L S E I F ;
 EMPTY : E M P T Y ;
-END1 :  E N D -> type(END);
+END :  E N D ;
 ENUM : E N U M  ;
 ERASE : E R A S E ;
 ERROR : E R R O R ;
@@ -263,8 +252,8 @@ TAB : T A B ;
 XOR : X O R ; 
 
 
-BEGINPROPERTY1 : B E G I N P R O P E R T Y -> type(BEGINPROPERTY);
-ENDPROPERTY1 : E N D P R O P E R T Y -> type(ENDPROPERTY);  
+BEGINPROPERTY: B E G I N P R O P E R T Y ;
+ENDPROPERTY: E N D P R O P E R T Y ;  
 
 HASH_CHAR : '#' ;
 AMP_CHAR : '&' ;
@@ -276,16 +265,16 @@ DOLAR : '$' ;
 COLON_CHAR : ':' ;
 SEMI_CHAR : ',' ;
 SEMI_COLON_CHAR : ';' ;
-DOT_CHAR1 :   '.' -> type(DOT_CHAR);
-LPAREN_CHAR1 : '(' -> type(LPAREN_CHAR);
-RPAREN_CHAR1 : ')' -> type(RPAREN_CHAR);
+DOT_CHAR :   '.' ;
+LPAREN_CHAR : '(' ;
+RPAREN_CHAR : ')' ;
 EXPONENT_CHAR : '^' ;
 PLUS_CHAR : '+' ;
 MINUS_CHAR : '-' ;
 MULT_CHAR : '*' ;
 DIV_CHAR : '/' ;
 MOD_CHAR : '\\' ;
-EQUAL_CHAR1 : '=' -> type(EQUAL_CHAR);
+EQUAL_CHAR : '=' ;
 LT_CHAR : '<' ;
 LE_CHAR : '<=' ;
 GT_CHAR : '>' ;
@@ -306,16 +295,16 @@ COMMENT : (    '\'' (LINE_CONTINUATION | ~('\r' | '\n'))*
             |   REM WS (LINE_CONTINUATION | ~('\r' | '\n'))*
             |   REM '\r'? '\n') -> channel(HIDDEN_COMMENT) ;
            
-// IMAGE_VALUE: '$'? '"' ~('"')*?  '"' ':' ([0-9] | [A-F])+ ; 
+IMAGE_VALUE: '$'? '"' ~('"')*?  '"' ':' ([0-9] | [A-F])+ ; 
 
-// SHORTCUT : '^' ~[}]+? '}' | '^' [a-zA-Z0-9{}()]+ ;
+SHORTCUT : '^' ~[}]+? '}' | '^' [a-zA-Z0-9{}()]+ ;
 
-CURLY_LITERAL1 : '{' ~[}]*? '}' {startOfLine = false; setType(CURLY_LITERAL);} ;
+CURLY_LITERAL : '{' ~[}]*? '}' {startOfLine = false;} ;
 DATELITERAL : '#' ~[#,\r\n]*? '#' {startOfLine = false;} ;
 
-HEXLITERAL : '&H' [0-9A-F]+  '&'? {startOfLine = false;} ;
+HEXLITERAL : '&H' [0-9A-F]+  {startOfLine = false;} ;
  
-//COLORLITERAL : '&H' [0-9A-F]+? '&' {startOfLine = false;} ; 
+COLORLITERAL : '&H' [0-9A-F]+? '&' {startOfLine = false;} ; 
 
 STRING_LITERAL1 : '"'  (~[\r\n"])*? '"' -> type(STRING_LITERAL) ; 
 STRING_LITERAL2 : '"' ( ESCAPE_STRING | ~[\r\n"])* '"' -> type(STRING_LITERAL); // DON'T USE *?... WONT WORK!
@@ -336,65 +325,9 @@ ID_TYPEINDICATOR : NAME_START_CHAR NAME_CHAR*  TYPE_INDICATOR -> type(IDENTIFIER
 
 FILENUMBER : '#' [a-zA-Z0-9_]+ ; 
 
-NEWLINE1 : '\r'? '\n' {lineNumber = false; setType(NEWLINE);};
+NEWLINE : '\r'? '\n' {lineNumber = false;};
 
 WS : [ \t]+ -> channel(HIDDEN_WHITESPACE) ;
-
-
-mode BeginMode;
-
-           
-COMMENT2 : (    '\'' (LINE_CONTINUATION | ~('\r' | '\n'))* 
-            |   REM WS (LINE_CONTINUATION | ~('\r' | '\n'))*
-            |   REM '\r'? '\n') -> channel(HIDDEN_COMMENT) ;
- 
-
-BEGIN2 : B E G I N {setType(BEGIN);};
-
-BEGINPROPERTY2 : B E G I N P R O P E R T Y -> type(BEGINPROPERTY) ;
-
-END2 : E N D {setType(END) ; popMode();};
-
-ENDPROPERTY2 : E N D P R O P E R T Y -> type(ENDPROPERTY) ;
-
-DOT_CHAR2 :   '.' -> type(DOT_CHAR);
-
-LPAREN_CHAR2 : '(' -> type(LPAREN_CHAR);
-RPAREN_CHAR2 : ')' -> type(RPAREN_CHAR);
-
-EQUAL_CHAR2 : '='  {setType(EQUAL_CHAR); mode(ValuePropertyMode);};
-
-CURLY_LITERAL2 : '{' ~[}]*? '}' {startOfLine = false; setType(CURLY_LITERAL);} ;
-
-INT2 : DIGIT+  -> type(INTEGER)  ;  
-
-ID2 : NAME_START_CHAR NAME_CHAR* {lineNumber = false; setType(IDENTIFIER);} ;
-
-WS2 : [ \t]+ -> channel(HIDDEN_WHITESPACE) ;
-
-NEWLINE2 : '\r'? '\n' { setType(NEWLINE); };
-
-
-mode ValuePropertyMode;
-           
-COMMENT3 : (    '\'' (LINE_CONTINUATION | ~('\r' | '\n'))* 
-            |   REM WS (LINE_CONTINUATION | ~('\r' | '\n'))*
-            |   REM '\r'? '\n') -> channel(HIDDEN_COMMENT) ;
-
-WS3 : [ \t]+ -> channel(HIDDEN_WHITESPACE) ;
-            
-STRING_LITERAL3 : '"'  (~[\r\n"])*? '"' -> type(VALUEPROPERTY) ; 
-STRING_LITERAL4 : '"' ( ESCAPE_STRING | ~[\r\n"])* '"' -> type(VALUEPROPERTY); // DON'T USE *?... WONT WORK!
-            
-VALUEPROPERTY3 : ~[ '] ~[\r\n' ]* -> type(VALUEPROPERTY);
-            
-NEWLINE3 : '\r'? '\n' { setType(NEWLINE); mode(BeginMode); };
-
-END3 : E N D {setType(END) ; popMode();};
-
-// BEGIN3 : B E G I N {setType(BEGIN) ; pushMode(BeginMode);};
-
-
 
 fragment
 ESCAPE_STRING : '""' ;
@@ -415,11 +348,11 @@ TYPE_INDICATOR :   '&'|'%'|'#'|'@'|'$' ;  //  '!' retirado de typeIndicator porq
 //
 fragment
  LETTER : [a-zA-Z]
-        | '\u00C3'  // Ã 
-        | '\u00C7'  // Ç
-        | '\u00D5'  // Õ    
+        | '\u00C3'  // �
+        | '\u00C7'  // �
+        | '\u00D5'  // �     
         | '\u00E3'  // �
-        | '\u00E2'  // � 
+        | '\u00E2'  // �
         | '\u00C2'  // �
         | '\u00F5'  // �
         | '\u00FA'  // �

@@ -129,7 +129,7 @@ public class VisualBasic6CompUnitInventory extends VisualBasic6CompUnitParserBas
 	}
 	
 	public void enterDeclareStmt(VisualBasic6CompUnitParser.DeclareStmtContext ctx) {
-		inventory.add(ctx.Name.start.getText(), DECLARE);
+		inventory.add(ctx.Name.start.getText(), DECLARE); 
 	}
 	
 	

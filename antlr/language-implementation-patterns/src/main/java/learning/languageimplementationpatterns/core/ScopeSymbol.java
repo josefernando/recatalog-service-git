@@ -1,5 +1,7 @@
 package learning.languageimplementationpatterns.core;
 
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.stream.Stream;
 
 import org.antlr.v4.runtime.ParserRuleContext;
@@ -7,7 +9,7 @@ import org.antlr.v4.runtime.ParserRuleContext;
 import br.com.recatalog.util.BicamSystem;
 import br.com.recatalog.util.PropertyList;
 
-public  abstract class ScopedSymbol extends Symbol implements Scope {
+public  abstract class ScopeSymbol extends Symbol implements Scope {
 	SymbolTable symbolTable;
 	Scope globalScope;
 	Scope enclosingScope;
@@ -15,7 +17,7 @@ public  abstract class ScopedSymbol extends Symbol implements Scope {
 	Scope nextUpScope;
 	ScopeSymbolList symbols;
 	
-	public ScopedSymbol(PropertyList _properties) {
+	public ScopeSymbol(PropertyList _properties) {
 		super(_properties);
 		this.symbolTable = (SymbolTable) properties.getProperty("SYSTEM_TABLE");
 		this.symbols = new ScopeSymbolList();
@@ -82,4 +84,24 @@ public  abstract class ScopedSymbol extends Symbol implements Scope {
 	public Scope getGlobalScope() {
 		return globalScope;
 	}
+	
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		if(symbols.getSymbols().size() > 0) {
+			sb.append("|-->> Scope: " + getName() + " - " + getClass().getSimpleName() + System.lineSeparator());
+			
+			for(Entry<String, Map<String, Symbol>> entry : symbols.getEntries()) {
+				Map<String, Symbol> symbols = entry.getValue();
+	/**
+	 * Entendendo "((?im)^)", ".."
+	 * Inclui identação ".." em cada linha de sb
+	 */
+				sb.append(symbols.values().stream().findFirst().get().toString().replaceAll("((?im)^)", ".."));
+			}
+		}
+		else {
+			sb.append("|.." + getName() + " - " + getClass().getSimpleName() + System.lineSeparator());
+		}
+		return sb.toString();
+	}	
 }

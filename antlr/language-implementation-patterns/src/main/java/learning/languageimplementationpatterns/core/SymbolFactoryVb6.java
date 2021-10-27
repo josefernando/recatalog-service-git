@@ -4,24 +4,32 @@ import org.antlr.v4.runtime.ParserRuleContext;
 
 import br.com.recatalog.util.PropertyList;
 
-public class SymbolFactoryVisualBasic6 implements SymbolFactory{
+public class SymbolFactoryVb6 implements SymbolFactory{
 	public static final String VARIABLE = "VARIABLE";
 	public static final String PRIMITIVE_TYPE = "PRIMITIVE_TYPE";
+	public static final String LIB = "LIB";
+	public static final String FORM = "FORM";
+	public static final String FORM_CONTROL = "FORM_CONTROL";
 
 	@Override
 	public Symbol getSymbol(PropertyList _properties) {
 		String symType = (String)_properties.getProperty("SYMBOL_TYPE").toString();
+		PropertyList symbolProperties = (PropertyList)_properties.mustProperty("SYMBOL_PROPERTIES");
 		switch (symType){
 	        case PRIMITIVE_TYPE:
-	    	return createPrimitiveTypeSymbol(_properties);	
+	    	return createPrimitiveTypeSymbol(symbolProperties);	
 //	        case CLASS:
 //	    	return createClassSymbol(_properties);
 	        case VARIABLE:
-	    	return createVariableSymbol(_properties);
+	    	return createVariableSymbol(symbolProperties);
 //	        case FUNCTION:
 //	    	return createFunctionSymbol(_properties);	    	
-//	        case LIBRARY:
-//	    	return createLibrarySymbol(_properties);	
+	        case LIB:
+	    	return createLibSymbol(symbolProperties);
+	        case FORM:
+	    	return createFormSymbol(symbolProperties);	
+	        case FORM_CONTROL:
+	    	return createFormControlSymbol(symbolProperties);		    	
 //	        case IMPLICIT:
 //	    	return createImplicitSymbol(_properties);
 //			case MODULE:
@@ -67,5 +75,20 @@ public class SymbolFactoryVisualBasic6 implements SymbolFactory{
 	
 	private Symbol createPrimitiveTypeSymbol(PropertyList propreties) {
 		return new PrimitiveTypeSymbol(propreties);
+	}
+	
+	private Symbol createFormSymbol(PropertyList propreties) {
+		return new FormSymbol(propreties);
+	}	
+	
+	private Symbol createFormControlSymbol(PropertyList propreties) {
+		return new FormControlSymbol(propreties);
+	}	
+	private Symbol createClassSymbol(PropertyList propreties) {
+		return new ClassSymbol(propreties);
+	}
+	
+	private Symbol createLibSymbol(PropertyList propreties) {
+		return new LibSymbol(propreties);
 	}
 }

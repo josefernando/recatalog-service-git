@@ -18,12 +18,13 @@ import br.com.recatalog.util.PropertyList;
 import learning.languageimplementationpatterns.core.visualbasic6.ParserRegexVisualBasic6;
 import learning.languageimplementationpatterns.core.visualbasic6.VisualBasic6CompUnitInventory;
 import learning.languageimplementationpatterns.core.visualbasic6.VisualBasic6ParserCompUnit;
+import learning.languageimplementationpatterns.core.visualbasic6.VisualBasic6StatisticsCompUnit;
 import learning.languageimplementationpatterns.util.ModuleProperty;
 
 public class SymbolTableBuilder {
 	
 	String language;
-	SymbolTable st;
+	SymbolFactoryVb6 st;
 	List<String> sourceFiles;
 	
 	IdentityHashMap<String, ArrayList<ContextTreeData>> whereUsedByName; 
@@ -37,7 +38,7 @@ public class SymbolTableBuilder {
 		language = (String) properties.getProperty("LANGUAGE");
 		sourceFiles = (List<String>) properties.getProperty("SOURCE_FILES");
 
-		st = new SymbolTable();
+		st = new SymbolFactoryVb6();
 		
 		moduleProperties = new LinkedHashMap<String,PropertyList>();
 		
@@ -96,26 +97,26 @@ public class SymbolTableBuilder {
 	}	
 	
 	public void parserUnitTest(ParseTree tree, File file) {
-        VisualBasic6CompUnitInventory visualBasic6InventoryCompUnit = new VisualBasic6CompUnitInventory();
+		VisualBasic6StatisticsCompUnit visualBasic6StatisticsCompUnit = new VisualBasic6StatisticsCompUnit();
         ParseTreeWalker walker = new ParseTreeWalker();
-        walker.walk(visualBasic6InventoryCompUnit, tree);        // walk parse tree 
+        walker.walk(visualBasic6StatisticsCompUnit, tree);        // walk parse tree 
         
-        if(visualBasic6InventoryCompUnit.getException() != null) {
-        	System.err.println(visualBasic6InventoryCompUnit.getException());
+        if(visualBasic6StatisticsCompUnit.getException() != null) {
+        	System.err.println(visualBasic6StatisticsCompUnit.getException());
         }
         
   	     ParserRegexVisualBasic6 parseRegex = new ParserRegexVisualBasic6(file);
-  	     boolean ok = visualBasic6InventoryCompUnit.getInventory().getInventory().equals(parseRegex.getInventory().getInventory());
+  	     boolean ok = visualBasic6StatisticsCompUnit.getStatistics().getStatistics().equals(parseRegex.getInventory().getInventory());
   	     if(!ok) {
-             visualBasic6InventoryCompUnit.getInventory().print();
+  	    	visualBasic6StatisticsCompUnit.getStatistics().print();
              parseRegex.getInventory().print();
   	     }
 //  	   String unitTest = visualBasic6InventoryCompUnit.getInventory().getInventory().equals(parseRegex.getInventory().getInventory())
 //  			             == true ? "Succeed" : "Failed";
-  	   boolean unitTest = visualBasic6InventoryCompUnit.getInventory().getInventory().equals(parseRegex.getInventory().getInventory()); 
+  	   boolean unitTest = visualBasic6StatisticsCompUnit.getStatistics().getStatistics().equals(parseRegex.getInventory().getInventory()); 
   	   System.err.println(String.format("Unit Test: %s%n", unitTest == true ? "Succeeded" : "Failed"));		
   	   if(!unitTest) {
-  		   String msg = System.lineSeparator()+ visualBasic6InventoryCompUnit.getInventory().getInventory().toString();
+  		   String msg = System.lineSeparator()+ visualBasic6StatisticsCompUnit.getStatistics().getStatistics().toString();
   		   msg = msg + System.lineSeparator()+ parseRegex.getInventory().getInventory().toString();
   	   }
 	}

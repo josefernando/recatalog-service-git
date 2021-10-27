@@ -2,9 +2,9 @@ package learning.languageimplementationpatterns.core;
 
 import br.com.recatalog.util.PropertyList;
 
-public class ClassModuleSymbol extends ScopedSymbol {
+public class FrmModuleSymbol extends ScopeSymbol implements MethodSymbol{
 
-	public ClassModuleSymbol(PropertyList properties) {
+	public FrmModuleSymbol(PropertyList properties) {
 		super(properties);
 	}
 }
